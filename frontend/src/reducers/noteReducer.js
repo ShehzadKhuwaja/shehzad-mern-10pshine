@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import noteService from '../services/blogs'
+import noteService from '../services/notes'
 import { setNotification } from '../reducers/notificationReducer'
 
 const noteSlice = createSlice({
