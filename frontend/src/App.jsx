@@ -25,7 +25,7 @@ function App() {
         <Box sx={{ width: '100%', position: 'absolute', top: '0px'}}>
           <LinearProgress variant="determinate" value={progress} sx={{ height: 8, borderRadius: 24 }} />
         </Box>
-          <UploadAvatar />
+          <SignUp />
         </Box>
       </Stack>
     </Container>

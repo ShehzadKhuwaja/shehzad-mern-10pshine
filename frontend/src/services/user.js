@@ -5,4 +5,8 @@ const getAll = () => {
     return axios.get(baseUrl).then(res => res.data)
 }
 
-export default { getAll }
+const signUp = (newUser) => {
+    return axios.post(baseUrl, newUser).then(res => res.data)
+}
+
+export default { getAll, signUp }
