@@ -1,14 +1,15 @@
-import { Avatar, Box, Button, IconButton, InputAdornment, InputLabel, Link, OutlinedInput, Stack, TextField, Typography } from "@mui/material"
+import { Avatar, Box, Button, IconButton, InputAdornment, Snackbar, InputLabel, Link, OutlinedInput, Stack, TextField, Typography } from "@mui/material"
 import FormControl from '@mui/material/FormControl'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import { styled } from '@mui/system'
 import { storage } from '../firebaseConfig'
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage"
+import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage"
 import userService from "../services/user"
+import Alert from '@mui/material/Alert'
 
 const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false)
@@ -30,9 +31,26 @@ const SignUp = () => {
         confirmPassword: '',
     })
 
+    const [snackbarOpen, setSnackbarOpen] = useState(false)
+    const [snackbarMessage, setSnackbarMessage] = useState('')
+
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false)
+    }
+
     const [preview, setPreview] = useState(null)
 
     const [uploading, setUploading] = useState(false)
+
+    const [submissionError, setSubmissionError] = useState(false)
+
+    const [success, setSucess] = useState(false)
+    
+    useEffect(() => {
+        setSucess(true)
+        setSnackbarMessage('sign up successful')
+        setSnackbarOpen(true)
+    }, [])
 
     const handleNext = () => {
         if (!validateForm()) return
@@ -124,6 +142,9 @@ const SignUp = () => {
                 (error) => {
                     console.error(error)
                     setUploading(false)
+                    setPreview(null)
+                    setFormData({...formData, image: null})
+                    setSubmissionError(true)
                 },
                 async () => {
                     const downloadURL = await getDownloadURL(uploadTask.snapshot.ref)
@@ -137,13 +158,26 @@ const SignUp = () => {
                       avatar: downloadURL
                     }
 
+                    handleBack()
+
                     try {
-                        const newUser = await userService.signUp(postData);
-                        console.log(newUser);
+                        const newUser = await userService.signUp(postData)
+                        console.log(newUser)
+                        setSubmissionError(false)
+                        setSucess(true)
+                        setSnackbarMessage('Sign up successful')
+                        setSnackbarOpen(true)
                       } catch (error) {
-                        console.error(error);
+                        console.error(error)
+                        setSubmissionError(true)
+                        setSnackbarMessage(`User creation failed. ${error.name}`)
+                        setSnackbarOpen(true)
+                        const imageRef = ref(storage, `images/${fileName}`)
+                        deleteObject(imageRef).catch((deleteError) => {
+                            console.error('Failed to delete uploaded image:', deleteError)
+                        })
                       } finally {
-                        setUploading(false);
+                        setUploading(false)
                       }
                 }
             )
@@ -156,27 +190,40 @@ const SignUp = () => {
               email,
               password,
             }
+
+            handleBack()
     
             try {
                 const newUser = await userService.signUp(postData)
                 console.log(newUser)
+                setSubmissionError(false)
+                setSucess(true)
+                setSnackbarOpen(true)
+                setSnackbarMessage('Sign up successful')
             } catch (error) {
                 console.error(error)
+                setSubmissionError(true)
+                setSnackbarMessage(`User creation failed. ${error.name}`)
+                setSnackbarOpen(true)
             } finally {
                 setUploading(false)
             }
         }
 
-        setFormData({
-            username: '',
-            name: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
-            image: null
-        })
+        if (!submissionError) {
+            setFormData({
+                username: '',
+                name: '',
+                email: '',
+                password: '',
+                confirmPassword: '',
+                image: null
+            })
+    
+            setPreview(null)
+            handleBack()
+        }
 
-        setPreview(null)
     }
 
     const handleClickShowPassword = () => setShowPassword((show) => !show)
@@ -218,6 +265,17 @@ const SignUp = () => {
                 </Button>
                 <Button variant='contained' sx={{ flexGrow: 1 }} onClick={handleSubmit}>SIGN UP</Button>
             </Box>
+
+            <Snackbar 
+                open={snackbarOpen} 
+                autoHideDuration={6000} 
+                onClose={handleSnackbarClose}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            >
+                <Alert onClose={handleSnackbarClose} severity="error" sx={{ width: '100%' }}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
             </Box>
         )
     }
@@ -314,6 +372,17 @@ const SignUp = () => {
 
                 <Button variant="contained" sx={{ m: 1, width: '36ch' }} onClick={handleNext}>Next</Button>
             </Stack>
+
+            <Snackbar 
+                open={snackbarOpen} 
+                autoHideDuration={6000} 
+                onClose={handleSnackbarClose}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            >
+                <Alert onClose={handleSnackbarClose} severity={success ? "success": "error"} sx={{ width: '100%' }}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </Box>
     )
 }
