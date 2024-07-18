@@ -2,3 +2,8 @@
     margin: 0;
     padding: 0;
 }
+
+.blur-background {
+    filter: blur(5px);
+    pointer-events: none;
+}

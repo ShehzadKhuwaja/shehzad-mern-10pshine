@@ -13,7 +13,7 @@ import * as React from 'react';
 import UploadAvatar from './components/UploadAvatar'
 
 function App() {
-  const [progress, setProgress] = React.useState(10)
+  const [progress, setProgress] = React.useState(0)
 
   return (
     <Container sx={{ backgroundColor: 'green', width: '80vw', height: '100vh'}}>
@@ -23,9 +23,11 @@ function App() {
         </Box>
         <Box sx={{ backgroundColor: 'yellow', width: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', position: 'relative'}}>
         <Box sx={{ width: '100%', position: 'absolute', top: '0px'}}>
-          <LinearProgress variant="determinate" value={progress} sx={{ height: 8, borderRadius: 24 }} />
+          {
+            progress !== 0 && <LinearProgress variant="determinate" value={progress} sx={{ height: 8, borderRadius: 24 }} />
+          }
         </Box>
-          <SignUp />
+          <SignUp setProgress={setProgress}/>
         </Box>
       </Stack>
     </Container>
