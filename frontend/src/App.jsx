@@ -11,25 +11,46 @@ import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import * as React from 'react';
 import UploadAvatar from './components/UploadAvatar'
+import { Navigate, Route, Routes } from 'react-router-dom'
+import Auth from './components/Auth'
+import { useDispatch, useSelector } from 'react-redux'
+import { setUser } from './reducers/authenticationReducer'
+import noteService from './services/notes'
+import Dashboard from './components/Dashboard'
+import { useEffect } from 'react'
 
 function App() {
-  const [progress, setProgress] = React.useState(0)
+
+  const user = useSelector(state => state.auth)
+  console.log(user)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedNoteAppUser')
+    if (loggedUserJSON) {
+        const user = JSON.parse(loggedUserJSON)
+        console.log(user.token)
+        dispatch(setUser(user))
+        noteService.setToken(user.token)
+    }
+  }, [])
+
+  if (user === null) {
+    console.log(38)
+    return (
+        <Container>
+          <Auth />
+        </Container>
+    )
+  }
 
   return (
-    <Container sx={{ backgroundColor: 'green', width: '80vw', height: '100vh'}}>
-      <Stack direction='row' spacing={0} sx={{ backgroundColor: 'lightblue', height: '100%'}}>
-        <Box sx={{ backgroundColor: 'red', width: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRight: '1px solid black'}}>
-          <Login />
-        </Box>
-        <Box sx={{ backgroundColor: 'yellow', width: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', position: 'relative'}}>
-        <Box sx={{ width: '100%', position: 'absolute', top: '0px'}}>
-          {
-            progress !== 0 && <LinearProgress variant="determinate" value={progress} sx={{ height: 8, borderRadius: 24 }} />
-          }
-        </Box>
-          <SignUp setProgress={setProgress}/>
-        </Box>
-      </Stack>
+    <Container>
+      <Routes>
+        <Route path='/auth' element={<Auth />} />
+        <Route path='/Dashboard' element={<Dashboard />} />
+        <Route path='/' element={!user ? <Navigate replace to='/auth' />: <Navigate replace to='/Dashboard' />} />
+      </Routes>
     </Container>
   )
 }
