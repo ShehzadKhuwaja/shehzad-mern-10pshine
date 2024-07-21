@@ -21,11 +21,11 @@ export const setLogin = (username, password) => {
             const user = await loginService.login({
                 username, password
             })
-            window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
+            window.localStorage.setItem('loggedNoteAppUser', JSON.stringify(user))
 
             noteService.setToken(user.token)
             dispatch(setUser(user))
-            dispatch(setNotification(`You are Logged in Successfully`, 'success', 5000))
+            //dispatch(setNotification(`You are Logged in Successfully`, 'success', 5000))
         } catch (error) {
             dispatch(setNotification('Wrong username or password', 'error', 5000))
         }
