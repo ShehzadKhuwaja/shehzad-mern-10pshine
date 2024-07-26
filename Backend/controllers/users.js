@@ -8,6 +8,17 @@ usersRouter.get('/', async (request, response) => {
     response.json(users)
 })
 
+usersRouter.get('/:id', middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
+    const id = request.params.id
+    const user = request.user
+
+    if (id === user._id.toString()) {
+        return response.status(200).json(user)
+    }
+
+    return response.status(403).json()
+})
+
 usersRouter.post('/', async (request, response) => {
     const {username, name, password, email, avatar} = request.body
 
@@ -34,18 +45,18 @@ usersRouter.post('/', async (request, response) => {
 
 usersRouter.put('/', middleware.tokenExtractor, middleware.userExtractor, async (request, response) => {
     const user = request.user
-    const { username, name, email, avatar } = req.body
+    const { username, name, email, avatar } = request.body
 
-    if (username != null && username !== user.username) {
+    if (username && username !== user.username) {
         user.username = username
     }
-    if (name != null) {
+    if (name) {
         user.name = name
     }
-    if (email != null) {
+    if (email) {
         user.email = email
     }
-    if (avatar != null) {
+    if (avatar) {
         user.avatar = avatar
     }
 

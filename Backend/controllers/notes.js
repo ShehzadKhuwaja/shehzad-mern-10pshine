@@ -28,7 +28,7 @@ noteRouter.post('/', middleware.tokenExtractor, middleware.userExtractor, async 
   const savedNote = await newNote.save()
 
   await savedNote.populate('user', { username: 1, name: 1 })
-  user.notes = user.notes.concat(savedBlog._id) 
+  user.notes = user.notes.concat(savedNote._id) 
   await user.save()
 
   response.status(201).json(savedNote)
