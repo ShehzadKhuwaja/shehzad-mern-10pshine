@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import loginService from '../services/login'
 import noteService from '../services/notes'
+import UserService from '../services/user'
 import { setNotification } from "./notificationReducer"
 
 const authenticationReducer = createSlice({
@@ -24,6 +25,8 @@ export const setLogin = (username, password) => {
             window.localStorage.setItem('loggedNoteAppUser', JSON.stringify(user))
 
             noteService.setToken(user.token)
+            UserService.setUserToken(user.token)
+            UserService.setUserId(user.id)
             dispatch(setUser(user))
             //dispatch(setNotification(`You are Logged in Successfully`, 'success', 5000))
         } catch (error) {

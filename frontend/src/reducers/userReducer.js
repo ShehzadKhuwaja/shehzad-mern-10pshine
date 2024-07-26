@@ -1,23 +1,37 @@
 import { createSlice } from "@reduxjs/toolkit"
 import userService from '../services/user'
+import { setNotification } from '../reducers/notificationReducer'
 
 
 const userReducer = createSlice({
-    name: 'user',
-    initialState: [],
+    name: 'profile',
+    initialState: null,
     reducers: {
-        setAll(state, action) {
+        setUser(state, action) {
             return action.payload
-        }
+        },
     }
 })
 
-export const { setAll } = userReducer.actions
+export const { setUser } = userReducer.actions
 
-export const getUsers = () => {
+export const getProfileUser = () => {
     return async dispatch => {
-        const users = await userService.getAll()
-        dispatch(setAll(users))
+        const user = await userService.getUser()
+        dispatch(setUser(user))
+    }
+}
+
+export const updateProfileUser = (newObject) => {
+    return async dispatch => {
+        try {
+            const user = await userService.updateUser(newObject)
+            dispatch(setUser(user))
+            dispatch(setNotification('Profile successfully Updated', 'success', 5000))
+        }
+        catch (error) {
+            dispatch(setNotification(`Update unsuccessful ${error.message}`, 'error', 3000))
+        }
     }
 }
 
