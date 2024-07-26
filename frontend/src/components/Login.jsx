@@ -69,6 +69,10 @@ const Login = () => {
         event.preventDefault()
         if (!validateForm()) return
         dispatch(setLogin(formData.username, formData.password))
+        setFormData({
+            username: '',
+            password: '',
+        })
     }
 
     return (

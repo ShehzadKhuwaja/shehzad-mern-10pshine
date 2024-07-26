@@ -44,10 +44,10 @@ export const createNote = (note) => {
     }
 }
 
-export const updateNote = (id, note) => {
+export const updateNote = (note) => {
     return async dispatch => {
         try {
-            const updatedNote = await noteService.update(id, note)
+            const updatedNote = await noteService.update(note)
             dispatch(update(updatedNote))
             dispatch(sort())
             dispatch(setNotification(`You have updated ${note.title} note`, 'success', 5000))
