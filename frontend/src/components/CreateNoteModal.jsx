@@ -71,8 +71,8 @@ const CreateNoteModal = ({ onSave, noteModalOpen, handleNoteModalClose, editNote
   useEffect(() => {
     if (editNote) {
       //console.log(note)
-      setTitle(editNote.title);
-      setContent(editNote.description);
+      setTitle(editNote.title || '');
+      setContent(editNote.description || '');
       setCategory('uncategorized');
     } else {
       setTitle('');

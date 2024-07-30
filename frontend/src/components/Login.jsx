@@ -110,6 +110,7 @@ const Login = () => {
                     <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                     <OutlinedInput
                         id="outlined-adornment-password"
+                        data-testid='form-password'
                         type={showPassword ? 'text' : 'password'}
                         name="password"
                         value={formData.password}
@@ -117,6 +118,7 @@ const Login = () => {
                         endAdornment={
                         <InputAdornment position="end">
                             <IconButton
+                            data-testid='icon-button-password'
                             aria-label="toggle password visibility"
                             onClick={handleClickShowPassword}
                             onMouseDown={handleMouseDownPassword}

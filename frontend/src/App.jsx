@@ -28,7 +28,7 @@ import Trash from './components/Trash';
 import Favorites from './components/Favorites';
 import Category from './components/Category';
 import Tags from './components/Tags';
-import DashProfile from './components/DashProfile';
+import ProfilePage from './components/ProfilePage';
 
 
 const AppRoutes = ({ user }) => {
@@ -45,7 +45,7 @@ const AppRoutes = ({ user }) => {
       <Route path="/favorites" element={<Dashboard MainArea={Favorites}/>} />
       <Route path="/category" element={<Dashboard MainArea={Category}/>} />
       <Route path="/tags" element={<Dashboard MainArea={Tags}/>} />
-      <Route path="/profile" element={<Dashboard MainArea={DashProfile}/>} />
+      <Route path="/profile" element={<Dashboard MainArea={ProfilePage}/>} />
     </Routes>
   );
 }
