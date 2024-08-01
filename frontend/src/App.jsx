@@ -21,7 +21,7 @@ import Dashboard from './components/Dashboard'
 import { useEffect } from 'react'
 
 import NoteList from './components/NoteList'; // Import your components
-import Calendar from './components/Calendar';
+import CalendarWithNotes from './components/CalendarWithNotes';
 import Reminders from './components/Reminders';
 import Archive from './components/Archive';
 import Trash from './components/Trash';
@@ -37,8 +37,7 @@ const AppRoutes = ({ user }) => {
       <Route path='/auth' element={<Auth />} />
       <Route path='/Dashboard' element={<Dashboard MainArea={NoteList}/>} />
       <Route path='/' element={!user ? <Navigate replace to='/auth' />: <Navigate replace to='/Dashboard' />} />
-      <Route path='/all-notes' element={<Navigate replace to ='/Dashboard' />}/>
-      <Route path="/calendar" element={<Dashboard MainArea={Calendar}/>} />
+      <Route path="/calendar" element={<Dashboard MainArea={CalendarWithNotes}/>} />
       <Route path="/reminders" element={<Dashboard MainArea={Reminders}/>} />
       <Route path="/archive" element={<Dashboard MainArea={Archive}/>} />
       <Route path="/trash" element={<Dashboard MainArea={Trash}/>} />
@@ -50,7 +49,7 @@ const AppRoutes = ({ user }) => {
   );
 }
 
-function App() {
+const App = () => {
 
   const user = useSelector(state => state.auth)
   console.log(user)

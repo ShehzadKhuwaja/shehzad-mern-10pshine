@@ -10,10 +10,13 @@ const userReducer = createSlice({
         setUser(state, action) {
             return action.payload
         },
+        resetProfileUser(state, action) {
+            return null
+        }
     }
 })
 
-export const { setUser } = userReducer.actions
+export const { setUser, resetProfileUser } = userReducer.actions
 
 export const getProfileUser = () => {
     return async dispatch => {

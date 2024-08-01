@@ -1,0 +1,46 @@
+.calendar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 80vh;
+  }
+  
+  .calendar-top {
+    width: 100%;
+    height: auto;
+  }
+  
+  .notes-bottom {
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .notes-list {
+    margin-bottom: 20px;
+  }
+  
+  .note {
+    background-color: #f9f9f9;
+    padding: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #ddd;
+  }
+  
+  .add-note {
+    display: flex;
+  }
+  
+  .dot {
+    height: 6px;
+    width: 6px;
+    background-color: #007bff;
+    border-radius: 50%;
+    display: inline-block;
+    margin-top: 2px;
+  }
+
+  .react-calendar {
+    width: 100% !important;
+  }
+  

@@ -6,12 +6,13 @@ import React from 'react'
 const Auth = () => {
     const [progress, setProgress] = React.useState(0)
     return (
-        <Container sx={{ backgroundColor: 'green', width: '80vw', height: '100vh'}}>
-        <Stack direction='row' spacing={0} sx={{ backgroundColor: 'lightblue', height: '100%'}}>
-            <Box sx={{ backgroundColor: 'red', width: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRight: '1px solid black'}}>
+        <Container sx={{ width: '80vw', height: '100vh'}} className="auth-container">
+        <Stack direction='row' spacing={0} sx={{ height: '100%'}}>
+            <Box sx={{ width: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Login />
             </Box>
-            <Box sx={{ backgroundColor: 'yellow', width: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', position: 'relative'}}>
+            <div className="separater"></div>
+            <Box sx={{ width: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', position: 'relative'}}>
             <Box sx={{ width: '100%', position: 'absolute', top: '0px'}}>
             {
                 progress !== 0 && <LinearProgress variant="determinate" value={progress} sx={{ height: 8, borderRadius: 24 }} />

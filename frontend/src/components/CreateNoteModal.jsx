@@ -53,7 +53,7 @@ const style = {
   gap: 2,
 };
 
-const CreateNoteModal = ({ onSave, noteModalOpen, handleNoteModalClose, editNote = null}) => {
+const CreateNoteModal = ({ editNote = null, noteModalOpen, handleNoteModalOpen, handleNoteModalClose }) => {
   //const [open, setOpen] = useState(false);
   const [content, setContent] = useState('');
   const [title, setTitle] = useState('');
@@ -67,6 +67,8 @@ const CreateNoteModal = ({ onSave, noteModalOpen, handleNoteModalClose, editNote
 
   const dispatch = useDispatch()
   console.log(content)
+
+  console.log(editNote)
 
   useEffect(() => {
     if (editNote) {
@@ -138,6 +140,25 @@ const CreateNoteModal = ({ onSave, noteModalOpen, handleNoteModalClose, editNote
 
   return (
     <div>
+      <IconButton
+        color="primary"
+        aria-label="add"
+        onClick={handleNoteModalOpen}
+        sx={{
+        position: 'fixed',
+        bottom: 16,
+        right: 16,
+        bgcolor: 'primary.main',
+        '&:hover': {
+            bgcolor: 'primary.dark',
+            transform: 'scale(1.1)',
+            transition: 'transform 0.2s',
+        },
+        transition: 'transform 0.2s',
+        }}
+        >
+          <AddIcon sx={{ color: 'white', fontSize: 30 }} />
+      </IconButton>
       <Modal
         open={noteModalOpen}
         onClose={handleNoteModalClose}

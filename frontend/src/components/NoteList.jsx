@@ -8,17 +8,22 @@ import { initializeNote } from '../reducers/noteReducer';
 
 const NoteList = () => {
   const [open, setOpen] = useState(false)
-  const [editNote, setEditNote] = useState(null)
+  const [editNote, setEditNote] = useState(false)
 
   const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  const handleClose = () => {
+    setOpen(false)
+    setEditNote(false)
+  }
 
   const dispatch = useDispatch()
 
   const notes = useSelector(state => state.notes)
 
   useEffect(() => {
-    dispatch(initializeNote())
+    if (notes.length === 0) {
+      dispatch(initializeNote())
+    }
   }, [])
 
   const breakpointColumnsObj = {
@@ -45,8 +50,8 @@ const NoteList = () => {
         ))}
       </Masonry>
       <CreateNoteModal
-        onSave={() => {}}
         noteModalOpen={open}
+        handleNoteModalOpen={handleOpen}
         handleNoteModalClose={handleClose}
         editNote={editNote}
       />

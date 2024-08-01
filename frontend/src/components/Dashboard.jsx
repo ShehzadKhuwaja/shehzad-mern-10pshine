@@ -16,9 +16,16 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import AddIcon from '@mui/icons-material/Add'
 import { mainListItems, secondaryListItems, tertiaryListItems } from './listItems';
-import { Button, Chip, Menu, MenuItem, Popover, Stack, TextField } from '@mui/material';
+import { Button, Chip, ListItemButton, ListItemIcon, ListItemText, Menu, MenuItem, Popover, Stack, TextField } from '@mui/material';
 import NoteList from './NoteList';
 import CreateNoteModal from './CreateNoteModal';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { setUser } from '../reducers/authenticationReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import Snackbar from '@mui/material/Snackbar';
+import { resetNote } from '../reducers/noteReducer';
+import { resetProfileUser } from '../reducers/userReducer';
 
 const drawerWidth = 240;
 
@@ -28,17 +35,33 @@ export default function Dashboard({ MainArea }) {
   const [open, setOpen] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [searchText, setSearchText] = React.useState('');
-  const [noteModalOpen, setNoteModalOpen] = React.useState(false);
 
-  const handleCreateNote = () => {
+  const notification = useSelector(state => state.message)
 
-  }
+  const [state, setState] = React.useState({
+    openSnackbar: false,
+    vertical: 'top',
+    horizontal: 'center',
+  });
+  const { vertical, horizontal, openSnackbar } = state;
+
+  const handleSnackbarClose = () => {
+    setState({ ...state, openSnackbar: false });
+  };
+
+  React.useEffect(() => {
+    if (notification.message) {
+      setState({...state, openSnackbar: true})
+    }
+    else {
+      setState({...state, openSnackbar: false})
+    }
+  }, [notification.message])
 
   const handleSearchClick = (event) => {
     setAnchorEl(event.currentTarget);
     console.log(event.currentTarget)
   };
-
 
   const handleSearchChange = (event) => {
     setSearchText(event.target.value);
@@ -66,32 +89,28 @@ export default function Dashboard({ MainArea }) {
   const openPopover = Boolean(anchorEl);
   const id = openPopover ? 'search-popover' : undefined;
 
-  const handleNoteModalOpen = () => setNoteModalOpen(true)
-  const handleNoteModalClose = () => setNoteModalOpen(false)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    window.localStorage.clear()
+    dispatch(setUser(null))
+    dispatch(resetNote())
+    dispatch(resetProfileUser())
+    navigate('/auth')
+  }
 
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: 'flex', height: '100vh' }}>
+        <Snackbar
+          anchorOrigin={{ vertical, horizontal }}
+          open={openSnackbar}
+          onClose={handleSnackbarClose}
+          message={notification.message}
+          key={vertical + horizontal}
+        />
         <CssBaseline />
-        <IconButton
-            color="primary"
-            aria-label="add"
-            onClick={handleNoteModalOpen}
-            sx={{
-            position: 'fixed',
-            bottom: 16,
-            right: 16,
-            bgcolor: 'primary.main',
-            '&:hover': {
-                bgcolor: 'primary.dark',
-                transform: 'scale(1.1)',
-                transition: 'transform 0.2s',
-            },
-            transition: 'transform 0.2s',
-            }}
-        >
-            <AddIcon sx={{ color: 'white', fontSize: 30 }} />
-        </IconButton>
         <AppBar
           position="absolute"
           sx={{
@@ -240,6 +259,12 @@ export default function Dashboard({ MainArea }) {
             {secondaryListItems}
             <Divider sx={{ my: 1 }} />
             {tertiaryListItems}
+            <ListItemButton onClick={handleLogout}>
+              <ListItemIcon>
+                <LogoutIcon />
+              </ListItemIcon>
+              <ListItemText primary="Logout" />
+            </ListItemButton>
           </List>
         </Drawer>
         <Box
@@ -257,11 +282,6 @@ export default function Dashboard({ MainArea }) {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <MainArea />
-            <CreateNoteModal
-                onSave={handleCreateNote}
-                noteModalOpen={noteModalOpen}
-                handleNoteModalClose={handleNoteModalClose}
-            />
           </Container>
         </Box>
       </Box>

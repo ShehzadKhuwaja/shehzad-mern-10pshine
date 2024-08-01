@@ -22,10 +22,13 @@ const noteSlice = createSlice({
         sort(state, action) {
             return state.sort((note1, note2) => note2.likes - note1.likes)
         },
+        resetNote(state, action) {
+            return []
+        }
     }
 })
 
-export const { setAll, create, update, remove, sort } = noteSlice.actions
+export const { setAll, create, update, remove, sort, resetNote } = noteSlice.actions
 
 export const initializeNote = () => {
     return async dispatch => {

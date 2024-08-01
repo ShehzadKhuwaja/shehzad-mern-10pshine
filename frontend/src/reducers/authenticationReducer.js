@@ -28,7 +28,7 @@ export const setLogin = (username, password) => {
             UserService.setUserToken(user.token)
             UserService.setUserId(user.id)
             dispatch(setUser(user))
-            //dispatch(setNotification(`You are Logged in Successfully`, 'success', 5000))
+            dispatch(setNotification(`You are Logged in Successfully`, 'success', 5000))
         } catch (error) {
             dispatch(setNotification('Wrong username or password', 'error', 5000))
         }

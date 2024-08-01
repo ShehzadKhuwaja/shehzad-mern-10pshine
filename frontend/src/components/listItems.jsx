@@ -15,7 +15,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 export const mainListItems = (
   <React.Fragment>
-    <ListItemButton component={Link} to="/all-notes">
+    <ListItemButton component={Link} to="/Dashboard">
       <ListItemIcon>
         <TextSnippetIcon />
       </ListItemIcon>

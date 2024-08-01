@@ -61,7 +61,9 @@ const ProfilePage = () => {
   });
 
   useEffect(() => {
-    dispatch(getProfileUser())
+    if (!profileUser) {
+      dispatch(getProfileUser())
+    }
   }, [])
 
   useEffect(() => {

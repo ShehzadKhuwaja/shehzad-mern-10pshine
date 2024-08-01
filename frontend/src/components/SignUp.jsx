@@ -10,6 +10,37 @@ import { storage } from '../firebaseConfig'
 import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage"
 import userService from "../services/user"
 import Alert from '@mui/material/Alert'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+
+
+const theme = createTheme({
+    components: {
+        MuiTextField: {
+            styleOverrides: {
+                root: {
+                '& .MuiInputBase-root': {
+                    color: '#D3D3D3', // Input text color
+                },
+                '& .MuiInputLabel-root': {
+                    color: '#D3D3D3', // Label color
+                },
+                },
+            },
+        },
+        MuiFormControl: {
+            styleOverrides: {
+                root: {
+                    '& .MuiInputBase-root': {
+                        color: '#D3D3D3', // Input text color
+                    },
+                    '& .MuiInputLabel-root': {
+                        color: '#D3D3D3', // Label color
+                    },
+                }
+            }
+        }
+    },
+});
 
 const SignUp = ({ setProgress }) => {
     const [showPassword, setShowPassword] = useState(false)
@@ -143,8 +174,8 @@ const SignUp = ({ setProgress }) => {
         // Submit the form data to your backend or perform any action needed
         if (formData.image) {
             setUploading(true)
-            const fileName = new Date().getTime() + formData.image.name
-            const storageRef = ref(storage, `images/${fileName}`)
+            //const fileName = new Date().getTime() + formData.image.name
+            const storageRef = ref(storage, `avatars/${formData.username}`)
             const uploadTask = uploadBytesResumable(storageRef, formData.image)
             
             uploadTask.on(
@@ -161,7 +192,7 @@ const SignUp = ({ setProgress }) => {
                     setProgress(50)
                 },
                 async () => {
-                    const downloadURL = await getDownloadURL(uploadTask.snapshot.ref)
+                    const downloadURL = `avatars/${formData.username}`
                     
                     const { username, name, email, password } = formData
                     const postData = {
@@ -276,7 +307,7 @@ const SignUp = ({ setProgress }) => {
                 <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                     <LockOutlinedIcon />
                 </Avatar>
-                <Typography>Sign up (optional)</Typography>
+                <Typography sx={{ color: '#D3D3D3' }}>Sign up (optional)</Typography>
             </Stack>
             
             {preview ? (
@@ -327,120 +358,122 @@ const SignUp = ({ setProgress }) => {
     }
 
     return (
-        <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            flexDirection="column"
-            height="100vh"
-            position="relative"
-            className={isSubmitting ? 'blur-background' : ''}
-            sx={{ width: '100%' }}
-        >
-            <Stack alignItems='center' justifyContent='center' spacing={2}>
-                <Stack alignItems='center' justifyContent='center' spacing={1}>
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        <LockOutlinedIcon />
-                    </Avatar>
-                    <Typography>Sign up</Typography>
-                </Stack>
-                <TextField
-                    label="Username"
-                    variant="outlined"
-                    sx={{ m: 1, width: '36ch' }}
-                    name="username"
-                    value={formData.username}
-                    onChange={handleChange}
-                    error={!!errors.username}
-                    helperText={errors.username}
-                />
-                <TextField
-                    label="name"
-                    variant="outlined"
-                    sx={{ m: 1, width: '36ch' }}
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    error={!!errors.name}
-                    helperText={errors.name}
-                />
-                <TextField
-                    label="Email"
-                    variant="outlined"
-                    sx={{ m: 1, width: '36ch' }}
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    error={!!errors.email}
-                    helperText={errors.email}
-                />
-
-                <FormControl sx={{ m: 1, width: '36ch' }} variant="outlined" error={!!errors.password}>
-                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                    <OutlinedInput
-                        id="outlined-adornment-password-signup"
-                        type={showPassword ? 'text' : 'password'}
-                        name="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        endAdornment={
-                        <InputAdornment position="end">
-                            <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                            >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                            </IconButton>
-                        </InputAdornment>
-                        }
-                        label="Password"
-                    />
-                    <Typography variant="body2" color="error">{errors.password}</Typography>
-                </FormControl>
-
-                <FormControl sx={{ m: 1, width: '36ch' }} variant="outlined" error={!!errors.confirmPassword}>
-                    <InputLabel htmlFor="outlined-adornment-password">Confirm password</InputLabel>
-                    <OutlinedInput
-                        id="outlined-adornment-retypepassword-signup"
-                        type={showPassword ? 'text' : 'password'}
-                        name="confirmPassword"
-                        value={formData.confirmPassword}
-                        onChange={handleChange}
-                        endAdornment={
-                        <InputAdornment position="end">
-                            <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                            >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                            </IconButton>
-                        </InputAdornment>
-                        }
-                        label="Retype-password"
-                    />
-                     <Typography variant="body2" color="error">{errors.confirmPassword}</Typography>
-                </FormControl>
-
-                <Button variant="contained" sx={{ m: 1, width: '36ch' }} onClick={handleNext}>Next</Button>
-            </Stack>
-
-            <Box position="absolute" top="1%">
-                <Collapse in={showAlert} orientation="vertical">
-                    <Alert severity={success ? "success": "error"}>{snackbarMessage}</Alert>
-                </Collapse>
-            </Box>
-
-            <Backdrop
-                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                open={isSubmitting}
+        <ThemeProvider theme={theme}>
+            <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                flexDirection="column"
+                height="100vh"
+                position="relative"
+                className={isSubmitting ? 'blur-background' : ''}
+                sx={{ width: '100%', color: '#D3D3D3' }}
             >
-                <CircularProgress color="inherit" />
-            </Backdrop>
-        </Box>
+                <Stack alignItems='center' justifyContent='center' spacing={2}>
+                    <Stack alignItems='center' justifyContent='center' spacing={1}>
+                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                            <LockOutlinedIcon />
+                        </Avatar>
+                        <Typography>Sign up</Typography>
+                    </Stack>
+                    <TextField
+                        label="Username"
+                        variant="outlined"
+                        sx={{ m: 1, width: '36ch' }}
+                        name="username"
+                        value={formData.username}
+                        onChange={handleChange}
+                        error={!!errors.username}
+                        helperText={errors.username}
+                    />
+                    <TextField
+                        label="name"
+                        variant="outlined"
+                        sx={{ m: 1, width: '36ch' }}
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        error={!!errors.name}
+                        helperText={errors.name}
+                    />
+                    <TextField
+                        label="Email"
+                        variant="outlined"
+                        sx={{ m: 1, width: '36ch' }}
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        error={!!errors.email}
+                        helperText={errors.email}
+                    />
+
+                    <FormControl sx={{ m: 1, width: '36ch' }} variant="outlined" error={!!errors.password}>
+                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                        <OutlinedInput
+                            id="outlined-adornment-password-signup"
+                            type={showPassword ? 'text' : 'password'}
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                                edge="end"
+                                >
+                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                            </InputAdornment>
+                            }
+                            label="Password"
+                        />
+                        <Typography variant="body2" color="error">{errors.password}</Typography>
+                    </FormControl>
+
+                    <FormControl sx={{ m: 1, width: '36ch' }} variant="outlined" error={!!errors.confirmPassword}>
+                        <InputLabel htmlFor="outlined-adornment-password">Confirm password</InputLabel>
+                        <OutlinedInput
+                            id="outlined-adornment-retypepassword-signup"
+                            type={showPassword ? 'text' : 'password'}
+                            name="confirmPassword"
+                            value={formData.confirmPassword}
+                            onChange={handleChange}
+                            endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                                edge="end"
+                                >
+                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                            </InputAdornment>
+                            }
+                            label="Retype-password"
+                        />
+                        <Typography variant="body2" color="error">{errors.confirmPassword}</Typography>
+                    </FormControl>
+
+                    <Button variant="contained" sx={{ m: 1, width: '36ch' }} onClick={handleNext}>Next</Button>
+                </Stack>
+
+                <Box position="absolute" top="1%">
+                    <Collapse in={showAlert} orientation="vertical">
+                        <Alert severity={success ? "success": "error"}>{snackbarMessage}</Alert>
+                    </Collapse>
+                </Box>
+
+                <Backdrop
+                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                    open={isSubmitting}
+                >
+                    <CircularProgress color="inherit" />
+                </Backdrop>
+            </Box>
+        </ThemeProvider>
     )
 }
 
