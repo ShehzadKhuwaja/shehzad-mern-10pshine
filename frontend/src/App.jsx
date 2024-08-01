@@ -21,14 +21,14 @@ import Dashboard from './components/Dashboard'
 import { useEffect } from 'react'
 
 import NoteList from './components/NoteList'; // Import your components
-import Calendar from './components/Calendar';
+import CalendarWithNotes from './components/CalendarWithNotes';
 import Reminders from './components/Reminders';
 import Archive from './components/Archive';
 import Trash from './components/Trash';
 import Favorites from './components/Favorites';
 import Category from './components/Category';
 import Tags from './components/Tags';
-import DashProfile from './components/DashProfile';
+import ProfilePage from './components/ProfilePage';
 
 
 const AppRoutes = ({ user }) => {
@@ -37,20 +37,19 @@ const AppRoutes = ({ user }) => {
       <Route path='/auth' element={<Auth />} />
       <Route path='/Dashboard' element={<Dashboard MainArea={NoteList}/>} />
       <Route path='/' element={!user ? <Navigate replace to='/auth' />: <Navigate replace to='/Dashboard' />} />
-      <Route path='/all-notes' element={<Navigate replace to ='/Dashboard' />}/>
-      <Route path="/calendar" element={<Dashboard MainArea={Calendar}/>} />
+      <Route path="/calendar" element={<Dashboard MainArea={CalendarWithNotes}/>} />
       <Route path="/reminders" element={<Dashboard MainArea={Reminders}/>} />
       <Route path="/archive" element={<Dashboard MainArea={Archive}/>} />
       <Route path="/trash" element={<Dashboard MainArea={Trash}/>} />
       <Route path="/favorites" element={<Dashboard MainArea={Favorites}/>} />
       <Route path="/category" element={<Dashboard MainArea={Category}/>} />
       <Route path="/tags" element={<Dashboard MainArea={Tags}/>} />
-      <Route path="/profile" element={<Dashboard MainArea={DashProfile}/>} />
+      <Route path="/profile" element={<Dashboard MainArea={ProfilePage}/>} />
     </Routes>
   );
 }
 
-function App() {
+const App = () => {
 
   const user = useSelector(state => state.auth)
   console.log(user)

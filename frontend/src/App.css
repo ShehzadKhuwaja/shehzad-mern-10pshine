@@ -3,6 +3,25 @@
     padding: 0;
 }
 
+body {
+    background-image: url('/bg.jpg');
+}
+
+.separater {
+    margin-top: auto;
+    margin-bottom: auto;
+    height: 80%;
+    width: 2px;
+    background-color: #dddddd35;
+}
+
+.auth-container {
+    background-color: rgba(17, 25, 40, 0.75);
+    backdrop-filter: blur(19px) saturate(180%);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
 .blur-background {
     filter: blur(5px);
     pointer-events: none;

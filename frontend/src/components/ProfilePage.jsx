@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Avatar,
   Button,
@@ -61,7 +61,9 @@ const ProfilePage = () => {
   });
 
   useEffect(() => {
-    dispatch(getProfileUser())
+    if (!profileUser) {
+      dispatch(getProfileUser())
+    }
   }, [])
 
   useEffect(() => {

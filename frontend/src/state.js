@@ -12,7 +12,7 @@ const store = configureStore({
         auth: authenticationReducer,
         users: usersReducer,
         user: userReducer
-    }
+    },
 })
 
 export default store
