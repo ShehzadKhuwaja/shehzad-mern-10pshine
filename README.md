@@ -23,6 +23,30 @@ This is a full-stack note-taking application built with the MERN (MongoDB, Expre
 - Calendar view for managing notes by date
 - Responsive and user-friendly interface
 
+## Screenshots
+
+### Dashboard
+
+![Dashboard](./assets/dashboard1.png)
+![Dashboard](./assets/dashboard2.png)
+
+### Authentication
+
+![Authentication](./assets/auth.png)
+
+### User Profile
+
+![User Profile](./assets/profile1.png)
+
+### Note Modal
+
+![Note Modal](./assets/notemodal.png)
+
+### Calendar
+
+![Calendar](./assets/calender.png)
+
+
 ## Installation
 
 ### Prerequisites
