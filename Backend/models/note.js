@@ -6,6 +6,10 @@ const NoteSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
+    calendarDate: {
+        type: Date,
+        default: null
+    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

@@ -21,6 +21,10 @@ noteRouter.post('/', middleware.tokenExtractor, middleware.userExtractor, async 
     user: user.id,
   })
 
+  if (body.calendarDate) {
+    newNote.calendarDate = body.calendarDate
+  }
+
   if (!newNote.title) {
     return response.status(400).end()
   }
