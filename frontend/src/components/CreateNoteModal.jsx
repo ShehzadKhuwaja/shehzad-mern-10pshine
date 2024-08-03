@@ -38,6 +38,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { createNote, updateNote } from '../reducers/noteReducer';
+import { useMatch } from 'react-router-dom';
 
 const style = {
   position: 'absolute',
@@ -53,7 +54,7 @@ const style = {
   gap: 2,
 };
 
-const CreateNoteModal = ({ editNote = null, noteModalOpen, handleNoteModalOpen, handleNoteModalClose }) => {
+const CreateNoteModal = ({ editNote = null, noteModalOpen, handleNoteModalOpen, handleNoteModalClose, currentDate }) => {
   //const [open, setOpen] = useState(false);
   const [content, setContent] = useState('');
   const [title, setTitle] = useState('');
@@ -64,6 +65,8 @@ const CreateNoteModal = ({ editNote = null, noteModalOpen, handleNoteModalOpen, 
   const quillRef = useRef(null);
   const undoIntervalRef = useRef(null);
   const redoIntervalRef = useRef(null);
+
+  const match = useMatch('calendar')
 
   const dispatch = useDispatch()
   console.log(content)
@@ -92,7 +95,12 @@ const CreateNoteModal = ({ editNote = null, noteModalOpen, handleNoteModalOpen, 
     //onSave({ title, content, category });
     //const plainTextContent = quillRef.current.getEditor().getText();
     if (!editNote) {
-      dispatch(createNote({ title, description: content }));
+      if (match) {
+        dispatch(createNote({ title, description: content, calendarDate: currentDate }));  
+      }
+      else {
+        dispatch(createNote({ title, description: content }));
+      }
     }
     else {
       dispatch(updateNote({...editNote, title, description: content}));
