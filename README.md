@@ -5,10 +5,12 @@ This is a full-stack note-taking application built with the MERN (MongoDB, Expre
 ## Table of Contents
 
 - [Features](#features)
+- [Tech Stack](#tech-stack)
 - [Installation](#installation)
 - [Usage](#usage)
 - [API Endpoints](#api-endpoints)
 - [Environment Variables](#environment-variables)
+- [Third-Party Services](#third-party-services)
 - [Testing](#testing)
 - [Contributing](#contributing)
 - [License](#license)
@@ -22,6 +24,26 @@ This is a full-stack note-taking application built with the MERN (MongoDB, Expre
 - Advanced search and filtering
 - Calendar view for managing notes by date
 - Responsive and user-friendly interface
+
+## Tech Stack
+
+### Frontend
+- React
+- Vite
+- Material-UI (MUI)
+- Firebase (for image storage)
+- Axios (for API requests)
+
+### Backend
+- Node.js
+- Express.js
+- MongoDB (Mongoose for ODM)
+- JWT (for authentication)
+- Nodemailer (for sending emails)
+
+## Third-Party Services
+- Firebase (for image storage)
+- OAuth (for third-party authentication)
 
 ## Screenshots
 
@@ -44,8 +66,7 @@ This is a full-stack note-taking application built with the MERN (MongoDB, Expre
 
 ### Calendar
 
-![Calendar](./assets/calender.png)
-
+![Calendar](./assets/calendar.png)
 
 ## Installation
 
@@ -154,7 +175,7 @@ Make sure to set the following environment variables in your `.env` files:
 
 ## Testing
 
-### Backend Tests
+### For Backend or Frontend tests
 
 To run backend tests, use:
 
