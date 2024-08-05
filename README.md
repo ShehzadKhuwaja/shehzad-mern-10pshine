@@ -66,7 +66,7 @@ This is a full-stack note-taking application built with the MERN (MongoDB, Expre
 
 ### Calendar
 
-![Calendar](./assets/calendar.png)
+![Calendar](./assets/calender.png)
 
 ## Installation
 
