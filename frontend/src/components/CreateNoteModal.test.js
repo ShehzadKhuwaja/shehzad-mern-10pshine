@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import CreateNoteModal from './CreateNoteModal';
+import { MemoryRouter } from 'react-router-dom'
 import { createNote, updateNote } from '../reducers/noteReducer';
 
 const mockStore = configureMockStore([]);
@@ -37,12 +38,14 @@ describe('CreateNoteModal', () => {
   const renderComponent = (noteModalOpen, editNote = null) => {
     render(
       <Provider store={store}>
-        <CreateNoteModal 
-          onSave={onSave}
-          noteModalOpen={noteModalOpen}
-          handleNoteModalClose={handleNoteModalClose}
-          editNote={editNote}
-        />
+        <MemoryRouter>
+          <CreateNoteModal 
+            onSave={onSave}
+            noteModalOpen={noteModalOpen}
+            handleNoteModalClose={handleNoteModalClose}
+            editNote={editNote}
+          />
+        </MemoryRouter>
       </Provider>
     );
   };

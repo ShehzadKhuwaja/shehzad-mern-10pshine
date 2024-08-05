@@ -66,7 +66,7 @@ const CreateNoteModal = ({ editNote = null, noteModalOpen, handleNoteModalOpen, 
   const undoIntervalRef = useRef(null);
   const redoIntervalRef = useRef(null);
 
-  const match = useMatch('calendar')
+  const match = useMatch('/calendar')
 
   const dispatch = useDispatch()
   console.log(content)
