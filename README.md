@@ -160,10 +160,3 @@ To run backend tests, use:
 
 ```bash
 npm run test
-
-### Backend Tests
-
-To run frontend tests, use:
-
-```bash
-npm run test
