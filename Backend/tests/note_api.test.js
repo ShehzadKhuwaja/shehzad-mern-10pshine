@@ -185,7 +185,7 @@ describe('deletion of a note', () => {
 })
 
 describe('updation of a note', () => {
-    test.only('succeeds with the status code of 200 if a valid update is performed', async () => {
+    test('succeeds with the status code of 200 if a valid update is performed', async () => {
         const notesAtStart = await helper.notesInDb()
 
         const noteToUpdate = {
