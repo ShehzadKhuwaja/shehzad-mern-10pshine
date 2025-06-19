@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = `${import.meta.env.VITE_API_BASE_URL}/api/notes`
+const baseUrl = `https://note-app-backend-ssnh.onrender.com/api/notes`
 
 let token = null
 
