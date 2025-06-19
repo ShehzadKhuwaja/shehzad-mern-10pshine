@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - develop  # Adjust if needed
-    environment: NoteApp
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: NoteApp
 
     steps:
       - name: Trigger Deploy for Backend
