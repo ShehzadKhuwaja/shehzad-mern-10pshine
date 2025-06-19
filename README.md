@@ -2,6 +2,10 @@
 
 This is a full-stack note-taking application built with the MERN (MongoDB, Express, React, Node.js) stack. It allows users to create, edit, share, and manage notes efficiently.
 
+## 🚀 Live Demo
+
+🔗 [Click here to view the deployed app](https://note-app-frontend-gddv.onrender.com)
+
 ## Table of Contents
 
 - [Features](#features)
