@@ -1,21 +1,19 @@
-name: Test Deploy Hook
+name: Deploy Both Services to Render
 
 on:
   push:
-    branches: develop
+    branches:
+      - develop  # Adjust if needed
 
 jobs:
-  debug:
+  deploy:
     runs-on: ubuntu-latest
-    steps:
-      - name: Echo Backend Deploy Hook (Debug only)
-        run: echo "::debug::${RENDER_DEPLOY_HOOK_BACKEND}"
-        env:
-          RENDER_DEPLOY_HOOK_BACKEND: ${{ secrets.RENDER_DEPLOY_HOOK_BACKEND }}
 
-      - name: Curl Backend Hook
+    steps:
+      - name: Trigger Deploy for Backend
         run: |
-          echo "Pinging: $RENDER_DEPLOY_HOOK_BACKEND"
-          curl "$RENDER_DEPLOY_HOOK_BACKEND"
-        env:
-          RENDER_DEPLOY_HOOK_BACKEND: ${{ secrets.RENDER_DEPLOY_HOOK_BACKEND }}
+          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_BACKEND }}
+
+      - name: Trigger Deploy for Service B
+        run: |
+          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_FRONTEND }}
