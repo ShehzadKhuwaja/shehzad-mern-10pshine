@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
         '/api': {
-            target: 'http://backend_service:5000',
+            target: 'https://note-app-backend-ssnh.onrender.com',
             changeOrigin: true
         }
     }
