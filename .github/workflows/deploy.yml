@@ -2,7 +2,7 @@ name: Test Deploy Hook
 
 on:
   push:
-    branches: [main]
+    branches: develop
 
 jobs:
   debug:
