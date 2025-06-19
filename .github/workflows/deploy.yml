@@ -1,21 +1,21 @@
-name: Deploy Backend & Frontend to Render
+name: Test Deploy Hook
 
 on:
   push:
-    branches:
-      - develop  # adjust if you use a different branch
+    branches: [main]
 
 jobs:
-  deploy:
+  debug:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Trigger Backend Deploy Hook
-        run: curl "$RENDER_DEPLOY_HOOK_BACKEND"
+      - name: Echo Backend Deploy Hook (Debug only)
+        run: echo "::debug::${RENDER_DEPLOY_HOOK_BACKEND}"
         env:
           RENDER_DEPLOY_HOOK_BACKEND: ${{ secrets.RENDER_DEPLOY_HOOK_BACKEND }}
 
-      - name: Trigger Frontend Deploy Hook
-        run: curl "$RENDER_DEPLOY_HOOK_FRONTEND"
+      - name: Curl Backend Hook
+        run: |
+          echo "Pinging: $RENDER_DEPLOY_HOOK_BACKEND"
+          curl "$RENDER_DEPLOY_HOOK_BACKEND"
         env:
-          RENDER_DEPLOY_HOOK_FRONTEND: ${{ secrets.RENDER_DEPLOY_HOOK_FRONTEND }}
+          RENDER_DEPLOY_HOOK_BACKEND: ${{ secrets.RENDER_DEPLOY_HOOK_BACKEND }}
