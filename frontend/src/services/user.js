@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = `${import.meta.env.VITE_API_BASE_URL}api/users`
+const baseUrl = `${import.meta.env.VITE_API_BASE_URL}/api/users`
 
 
 let token = null
